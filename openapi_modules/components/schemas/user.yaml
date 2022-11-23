@@ -1,0 +1,59 @@
+User:
+  # x-implements:
+  #   - AbstractEntity      
+  x-class-extra-annotation: |-
+    @jakarta.persistence.Entity
+    @jakarta.persistence.Table(
+        name = "user",
+        uniqueConstraints = {
+          @jakarta.persistence.UniqueConstraint(columnNames = {"username"})
+        }
+      )        
+    @org.hibernate.annotations.DynamicInsert
+    @org.hibernate.annotations.DynamicUpdate
+  type: object  
+  required:
+    - id
+    - username
+    - password
+    - nickname
+    - email
+    - created_at
+  properties: 
+    id:      
+      description: 用户编号,自增
+      x-field-extra-annotation: |-
+        @jakarta.persistence.Id
+          @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+      type: integer
+    username:
+      description: 用户登录名称
+      type: string
+    password:
+      description: 用户加密密码
+      type: string
+      x-field-extra-annotation: |
+        @jakarta.persistence.Transient
+          @com.fasterxml.jackson.annotation.JsonIgnore
+    nickname:
+      description: 用户昵称
+      type: string
+      format: string
+      x-field-extra-annotation: |
+        @jakarta.persistence.Column(nullable = false)
+
+    email:
+      description: 电子邮件
+      type: string
+      example: jsmith@gfmedical.com
+      x-field-extra-annotation: |
+        @org.hibernate.annotations.Formula("CONCAT(id, '@gfmedical.com')")
+    disabled: 
+      type: boolean
+      x-field-extra-annotation: |
+        @jakarta.persistence.Column(nullable = false)
+      default: false
+    created_at: 
+      description: 创建时间
+      type: string
+      format: date-time

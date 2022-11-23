@@ -1,0 +1,29 @@
+Result:
+  # x-implements:
+  #   - AbstractEntity
+  type: object
+  description: |-
+    ## Api 调用结果对象
+    
+    正常结果 `code` 字段值为 `ok`, `data` 包含返回的结果.
+
+    错误时为 `code` 字段值为 `error`, `data` 包含错误信息.
+
+    例如:
+    ```javascript
+    let result_ok = {
+      code: "ok",
+      data: {}
+    }
+    let result_error = {
+      code: "error",
+      data: {
+        msg: "Not found"
+      }
+    }
+    ```
+  properties:
+    code:
+      type: string
+    data: 
+      type: object

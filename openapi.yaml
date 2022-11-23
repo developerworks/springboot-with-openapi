@@ -1,0 +1,98 @@
+# OpanAPI 版本
+openapi: "3.0.3"
+# 基本信息
+info:
+  title: title
+  description: 用户模块
+  contact: 
+    name: He zhiqiang
+    email: developerworks@163.com
+    url: https://localhost/contact.html
+  termsOfService: http://swagger.io/terms/
+  license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+# 服务器地址
+servers:
+  - url: https://localhost/project/api/v1
+    description: |-
+      Local machine
+  - url: "https://192.168.0.100:8080/project/api/v1"
+    description: |-
+      ### 开发服务器
+      内部开发,调试使用
+  - url: https://staging.gf.com/project/api/v1
+    description: |-
+      ### 演示服务器
+      对外进行产品演示, 路演时使用
+  - url: https://prod.{region}.gf.com/project/api/v1
+    description: |- 
+      ### 生产服务器
+      线上产品环境的正式地址
+    variables:
+        region:
+          default: eu-west-1
+          enum:
+            - eu-west-1
+            - us-east-1
+
+# 接口路径
+paths:
+  /users:
+    get:
+      summary: User list
+      description: |-
+        paginated user list
+      operationId: getUsers
+      x-spring-paginated: true
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: |-
+            Return user list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+  /users/{id}:
+    get:
+      summary: get a user information
+      description: |- 
+        Get an user detail inforamtion
+      operationId: getUser
+      
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          explode: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: |- 
+            Get an user detail information
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Result'
+        '404': 
+          description: |-
+            User not found with provided {id} parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'                 
+
+# 组件对象, 调用 merge.sh 从 openapi_modules/components/schemas 中合并过来
+components:
+  schemas:
+    
+          
+      

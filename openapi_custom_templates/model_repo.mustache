@@ -1,0 +1,13 @@
+package {{modelPackage}};
+
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import {{modelPackage}}.{{classname}};
+import java.util.Optional;
+
+@Repository
+public interface {{classname}}Repository extends JpaRepository<{{classname}}, Long>, JpaSpecificationExecutor<{{classname}}> {
+
+    Optional<{{classname}}> findById(Integer id);
+}

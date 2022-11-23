@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: title
+  description: 用户模块
+  contact:
+    name: He zhiqiang
+    email: developerworks@163.com
+    url: https://localhost/contact.html
+  termsOfService: http://swagger.io/terms/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://localhost/project/api/v1
+    description: Local machine
+  - url: https://192.168.0.100:8080/project/api/v1
+    description: |-
+      ### 开发服务器
+      内部开发,调试使用
+  - url: https://staging.gf.com/project/api/v1
+    description: |-
+      ### 演示服务器
+      对外进行产品演示, 路演时使用
+  - url: https://prod.{region}.gf.com/project/api/v1
+    description: |-
+      ### 生产服务器
+      线上产品环境的正式地址
+    variables:
+      region:
+        default: eu-west-1
+        enum:
+          - eu-west-1
+          - us-east-1
+paths:
+  /users:
+    get:
+      summary: User list
+      description: paginated user list
+      operationId: getUsers
+      x-spring-paginated: true
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Return user list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+  "/users/{id}":
+    get:
+      summary: get a user information
+      description: Get an user detail inforamtion
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          explode: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Get an user detail information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        "404":
+          description: User not found with provided {id} parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+components:
+  schemas:
+    Result:
+      type: object
+      description: |-
+        ## Api 调用结果对象
+
+        正常结果 `code` 字段值为 `ok`, `data` 包含返回的结果.
+
+        错误时为 `code` 字段值为 `error`, `data` 包含错误信息.
+
+        例如:
+        ```javascript
+        let result_ok = {
+          code: "ok",
+          data: {}
+        }
+        let result_error = {
+          code: "error",
+          data: {
+            msg: "Not found"
+          }
+        }
+        ```
+      properties:
+        code:
+          type: string
+        data:
+          type: object
+    User:
+      x-class-extra-annotation: |-
+        @jakarta.persistence.Entity
+        @jakarta.persistence.Table(
+            name = "user",
+            uniqueConstraints = {
+              @jakarta.persistence.UniqueConstraint(columnNames = {"username"})
+            }
+          )        
+        @org.hibernate.annotations.DynamicInsert
+        @org.hibernate.annotations.DynamicUpdate
+      type: object
+      required:
+        - id
+        - username
+        - password
+        - nickname
+        - email
+        - created_at
+      properties:
+        id:
+          description: 用户编号,自增
+          x-field-extra-annotation: >-
+            @jakarta.persistence.Id
+              @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+          type: integer
+        username:
+          description: 用户登录名称
+          type: string
+        password:
+          description: 用户加密密码
+          type: string
+          x-field-extra-annotation: |
+            @jakarta.persistence.Transient
+              @com.fasterxml.jackson.annotation.JsonIgnore
+        nickname:
+          description: 用户昵称
+          type: string
+          format: string
+          x-field-extra-annotation: |
+            @jakarta.persistence.Column(nullable = false)
+        email:
+          description: 电子邮件
+          type: string
+          example: jsmith@gfmedical.com
+          x-field-extra-annotation: |
+            @org.hibernate.annotations.Formula("CONCAT(id, '@gfmedical.com')")
+        disabled:
+          type: boolean
+          x-field-extra-annotation: |
+            @jakarta.persistence.Column(nullable = false)
+          default: false
+        created_at:
+          description: 创建时间
+          type: string
+          format: date-time

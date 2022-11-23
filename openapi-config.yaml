@@ -1,0 +1,79 @@
+# https://github.com/openapi-json-schema-tools/openapi-json-schema-generator/blob/6903d8ab86/bin/configs/unmaintained/spring-boot-3.yaml
+enablePostProcessFile: false
+library: spring-boot
+generatorName: spring
+outputDir: spring-server
+inputSpec: openapi-merged.yaml
+templateDir: openapi_custom_templates
+useBeanValidation: true
+# modelNameSuffix: Dto
+# modelNamePrefix: ""
+files:
+  model_repo.mustache:    
+    templateType: Model
+    destinationFilename: Repository.java
+  #   # folder: src/main/java/com/demo/repository
+  model_dto.mustache:    
+    templateType: Model
+    destinationFilename: Dto.java
+    folder: src/main/java/com/demo/dto
+
+  # JPA Auditing
+  auditing/auditable.mustache:    
+    templateType: SupportingFiles
+    destinationFilename: Auditable.java
+    folder: src/main/java/com/demo/configuration/auditing
+  auditing/auditing.mustache:    
+    templateType: SupportingFiles
+    destinationFilename: Auditing.java
+    folder: src/main/java/com/demo/configuration/auditing
+  auditing/entity_auditor_aware.mustache:    
+    templateType: SupportingFiles
+    destinationFilename: EntityAuditorAware.java
+    folder: src/main/java/com/demo/configuration/auditing
+  libraries/spring-boot/README.mustache:
+    templateType: SupportingFiles
+    destinationFilename: README.md
+    folder: src
+  # libraries/spring-boot/datasource_config.mustache:
+  #   templateType: SupportingFiles
+  #   destinationFilename: DatasourceConfig.java
+  #   folder: src/main/java/com/demo/configuration
+# files:
+#   libraries/spring-boot/AbstractEntity.mustache:
+#     templateType: SupportingFiles
+#     destinationFilename: AbstractEntity.java
+#     folder: src/main/java/com/demo/model
+#   libraries/spring-boot/Util.mustache:
+#     templateType: SupportingFiles
+#     destinationFilename: Util.java
+#     folder: src/main/java/com/example/l3d/util
+#   libraries/spring-boot/model.mustache:    
+#     templateType: API
+#     destinationFilename: .java
+#   libraries/spring-boot/pom.mustache:
+#     templateType: SupportingFiles
+#     destinationFilename: pom.xml
+#     folder: .
+
+additionalProperties:
+  parentGroupId: org.springframework.boot
+  parentArtifactId: spring-boot-starter-parent
+  parentVersion: 3.0.0-RC2
+  basePackage: "com.demo"
+  apiPackage: "com.demo.api"
+  groupId: "com.demo"
+  invokerPackage: "com.demo.api"
+  modelPackage: "com.demo.model"
+  configPackage: "com.demo.configuration"
+  # application.properties
+  serverPort: 8080
+  # useSpringController: true
+  useSpringBoot3: true
+  # withXml: true
+  returnSuccessCode: true
+  # allowUnicodeIdentifiers: true
+  # async: true
+  # additionalModelTypeAnnotations: "@javax.persistence.Entity;@lombok.Data"
+  # dateLibrary: legacy
+  delegatePattern: false

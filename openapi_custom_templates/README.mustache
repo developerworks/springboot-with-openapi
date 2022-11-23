@@ -1,0 +1,62 @@
+{{^interfaceOnly}}# OpenAPI generated server
+
+Spring Boot Server
+
+## Overview
+
+{{#springDocDocumentationProvider}}
+将 OpenAPI 集成到 Spring Boot 的底层库是 [springdoc](https://springdoc.org)。
+Springdoc 将根据生成的 Controller 和 Model 类生成 OpenAPI v3 规范。
+可以使用以下 url 下载该规范：
+http://localhost:{{serverPort}}/v3/api-docs/
+{{/springDocDocumentationProvider}}
+
+{{#sourceDocumentationProvider}}
+用于生成此项目的 OpenAPI 规范可使用以下 url 下载：
+http://localhost:{{serverPort}}/openapi.json
+{{/sourceDocumentationProvider}}
+
+将您的服务器作为一个简单的 Java 应用程序启动
+
+{{#useSwaggerUI}}
+您可以通过指向 swagger-ui 查看 api 文档
+http://localhost:{{serverPort}}/swagger-ui.html
+{{/useSwaggerUI}}
+更改 application.properties 中的默认端口值{{/interfaceOnly}}{{#interfaceOnly}}
+# OpenAPI generated API stub
+
+Spring Framework stub
+
+
+＃概述
+此代码由 [OpenAPI Generator](https://openapi-generator.tech) 项目生成。
+通过使用 [OpenAPI-Spec](https://openapis.org)，您可以轻松生成 API 存根。
+这是一个使用 Spring 框架在 Java 中构建 API 存根接口的示例。
+
+生成的存根可用于您现有的 Spring-MVC 或 Spring-Boot 应用程序以创建控制器端点
+通过添加实现接口的```@Controller``` 类。 例如：
+```java
+@Controller
+public class PetController implements PetApi {
+// implement all PetApi methods
+}
+```
+
+您也可以使用该接口创建[Spring-Cloud Feign clients](http://projects.spring.io/spring-cloud/spring-cloud.html#spring-cloud-feign-inheritance)。例如：
+```java
+@FeignClient(name="pet", url="http://petstore.swagger.io/v2")
+public interface PetClient extends PetApi {
+
+}
+```
+{{/interfaceOnly}}
+{{#virtualService}}
+
+## Virtualan :
+
+您可以通过指向查看 Virtuan UI
+http://localhost:8080//virtualan-ui.html
+
+如何使用 Virtuan wiki 中提供的指南
+https://github.com/virtualansoftware/virtualan/wiki
+{{/virtualService}}
